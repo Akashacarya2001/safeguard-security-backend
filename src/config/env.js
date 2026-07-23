@@ -19,7 +19,7 @@ module.exports = {
   },
 
   zm: {
-    baseUrl: required('ZM_BASE_URL').replace(/\/$/, ''),
+    baseUrl: (process.env.ZM_BASE_URL || 'http://localhost:8080/zm').replace(/\/$/, ''),
     apiUser: process.env.ZM_API_USER || '',
     apiPassword: process.env.ZM_API_PASSWORD || '',
     authMode: process.env.ZM_AUTH_MODE || 'token', // 'token' | 'legacy'
