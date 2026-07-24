@@ -30,13 +30,13 @@ async function update(req, res, next) {
         sms_alerts = ?
        WHERE id = 1`,
       [
-        retention_days,
-        !!auto_delete,
-        power_outage_behavior,
-        internet_disruption_behavior,
-        !!email_alerts,
-        !!sms_alerts,
-      ]
+  retention_days,
+  auto_delete ? 1 : 0,
+  power_outage_behavior,
+  internet_disruption_behavior,
+  email_alerts ? 1 : 0,
+  sms_alerts ? 1 : 0,
+]
     );
     await pool.query(
       'INSERT INTO audit_log (user_id, action, target_type, target_id, detail) VALUES (?, ?, ?, ?, ?)',
