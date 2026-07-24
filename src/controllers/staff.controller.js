@@ -65,7 +65,7 @@ async function updatePermissions(req, res, next) {
     const { live_view, playback, recording, schedule } = req.body;
     await pool.query(
       `UPDATE permissions SET live_view = ?, playback = ?, recording = ?, schedule = ? WHERE user_id = ?`,
-      [!!live_view, !!playback, !!recording, !!schedule, id]
+     [live_view ? 1 : 0, playback ? 1 : 0, recording ? 1 : 0, schedule ? 1 : 0, id]
     );
     await pool.query(
       'INSERT INTO audit_log (user_id, action, target_type, target_id, detail) VALUES (?, ?, ?, ?, ?)',
@@ -81,7 +81,7 @@ async function setActive(req, res, next) {
   try {
     const { id } = req.params;
     const { active } = req.body;
-    await pool.query('UPDATE users SET active = ? WHERE id = ?', [!!active, id]);
+  await pool.query('UPDATE users SET active = ? WHERE id = ?', [active ? 1 : 0, id]);
     res.json({ ok: true });
   } catch (err) {
     next(err);
